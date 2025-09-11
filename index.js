@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors'
 import dotenv from 'dotenv'
 import conncetDB from './utils/db.js';
+import UserRouter from './routes/user.route.js'
 const app = express();
 
 
@@ -19,6 +20,11 @@ const corsOptions = {
     Credentials : true,
 }
 app.use(cors(corsOptions))
+
+
+//route section or creating API's
+
+app.use('/api/v1/user' , UserRouter)
 
 const PORT = process.env.PORT || 4000
 

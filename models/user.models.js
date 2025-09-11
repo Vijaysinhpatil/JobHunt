@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
       enum: ["student", "recruiter"],
       default: "",
     },
-    profie: {
+    profile: {
       bio: {
         type: String,
       },
@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema(
       },
     },
   },
-  { timestamps: "true" }
+  { timestamps: true }
 );
 
 export const User = mongoose.model("User", userSchema);
