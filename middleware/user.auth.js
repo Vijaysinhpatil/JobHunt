@@ -4,7 +4,7 @@ const isAuthenticated = (req , res, next) => {
 
     try {
         
-        const token = req.cookie.token;
+        const token = req.cookies.token;
 
         if(!token)
         {
@@ -39,3 +39,5 @@ const isAuthenticated = (req , res, next) => {
         })
     }
 }
+
+export default isAuthenticated;

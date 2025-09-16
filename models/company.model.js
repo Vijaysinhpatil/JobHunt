@@ -19,12 +19,16 @@ const companySchema = new mongoose.Schema({
     logo : {
         type : String
     },
+    location : {
 
+        type : String
+    },
     userId : {
 
-        type : mongoose.Types.ObjectId,
+        type : mongoose.Schema.Types.ObjectId,
         ref : "User",
         required : true
+
     }
 })
 export const Company = mongoose.model("company" , companySchema)

@@ -140,7 +140,7 @@ export const Login = async(req , res) => {
 
     return res
     .status(200)
-    .cookie("Token" , token , {
+    .cookie("token" , token , {
 
         maxAge : 1 * 24 * 60 * 60 * 1000 ,
         httpOnly: true,
@@ -204,12 +204,12 @@ export const updateProfile = async(req , res) => {
 
         if(skills)
         {
-            skillsArray = skills.split(",")
+            skillsArray = skills.split(",").map(skill => skill.trim())
         }
 
         const userId = req.id;
 
-        let user = await User.findOne(userId)
+        let user = await User.findById(userId)
 
         if(!user)
         {
@@ -224,7 +224,7 @@ export const updateProfile = async(req , res) => {
         if(email) user.email = email;
         if(phoneNumber) user.phoneNumber = phoneNumber;
         if(bio) user.profile.bio = bio;
-        if(skills) user.profile.skills = skills;
+        if(skills) user.profile.skills = skillsArray;
 
 
         await user.save()

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const userSchema = new mongoose.Schema({
+const jobSchema = new mongoose.Schema({
 
     title : {
         type : String,
@@ -13,11 +13,11 @@ const userSchema = new mongoose.Schema({
     },
 
     requirements : {
-        type : Number,
+        type : [String],
     },
 
     salary : {
-        type : Number,
+        type : String,
         required : true,
    },
 
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
    },
 
    location : {
-    tyope : String,
+    type : String,
     required : true,
    },
 
@@ -43,8 +43,13 @@ const userSchema = new mongoose.Schema({
 
     company : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : "User",
+       ref : "Company",
         required : true,
+  },
+  created_by : {
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "User",
+    required : true
   },
   applications : [{
     type : mongoose.Schema.Types.ObjectId,
