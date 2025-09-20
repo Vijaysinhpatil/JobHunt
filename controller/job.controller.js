@@ -1,5 +1,4 @@
 import { Job } from "../models/job.model.js";
-
 export const postJob = async(req , res) => {
     try {
         const {
@@ -26,8 +25,10 @@ export const postJob = async(req , res) => {
                 })
         }
 
+       
         // ✅ Fixed: Proper type conversions
         const job = await Job.create({
+         
             title,
             description,
             requirements: requirements.split(",").map(req => req.trim()), // Remove extra spaces
@@ -38,6 +39,7 @@ export const postJob = async(req , res) => {
             experienceLevel: Number(experience), // ✅ Convert to number
             company: companyId,
             created_by: userId
+
         })
        
         await job.save()
@@ -46,7 +48,7 @@ export const postJob = async(req , res) => {
         console.log("Posted Job => ", job);
         
         return res.status(201).json({
-            message: "Job created successfully",
+            message: " New Job created successfully",
             job,
             success: true,
         })
@@ -69,11 +71,16 @@ export const GetJobs = async(req , res) => {
     try {
         
         const keyword = req.query.keyword || "";
+
+        console.log("Key Word" , keyword);
+        
         const query = {
 
             $or : [
                 {
                     title : { $regex : keyword , $options : "i"},
+                },
+                {
                     description : {$regex : keyword , $options : "i"}
                 }
             ]
@@ -87,6 +94,8 @@ export const GetJobs = async(req , res) => {
             createdAt : -1
         });
 
+        console.log("JOBS =>" , jobs);
+        
         if(!jobs)
         {
             return res.status(401).json({
@@ -125,6 +134,11 @@ export const GetJobById = async(req , res) => {
 
         const jobs = await Job.findById(JobId)
 
+        console.log("JOB ID =>" , JobId);
+        console.log("JOBS =>" , jobs);
+        
+        
+
         if(!jobs)
         {
             return res.status(401).json({
@@ -134,7 +148,7 @@ export const GetJobById = async(req , res) => {
         }
 
         return res.status(201).json({
-            message : "Jobs Are displayed Successfully",
+            message : "Jobs Are displayed Successfully by their Id",
             jobs,
             success : true
         })
@@ -150,16 +164,18 @@ export const GetJobById = async(req , res) => {
 }
 
 //keep track of jobs which are updated by current Logged In Admin
-import mongoose from "mongoose";
+
 
 export const getAdminJob = async (req, res) => {
   try {
     const AdminId = req.id;
 
+    console.log(AdminId);
+    
     const jobs = await Job.find({
-      created_by: new mongoose.Types.ObjectId(AdminId),  // Convert string -> ObjectId
+      created_by: AdminId,  // Convert string -> ObjectId
     })
-      .populate("company")   // only path needed
+      .populate("Company")   // only path needed
       .sort({ createdAt: -1 });  // fix sorting (was misplaced inside populate)
 
     console.log("Jobs =>", jobs);

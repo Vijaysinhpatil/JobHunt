@@ -6,6 +6,7 @@ import conncetDB from './utils/db.js';
 import UserRouter from './routes/user.route.js'
 import JobRouter from './routes/job.route.js'
 import CompanyRouter from './routes/company.route.js'
+import ApplicationRoute from "./routes/application.route.js"
 const app = express();
 
 
@@ -18,8 +19,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended : true}))
 app.use(cookieParser());    
 const corsOptions = {
-    origion : "http://localhost:5173",
-    Credentials : true,
+    origin : "http://localhost:5173",
+    credentials : true,
 }
 app.use(cors(corsOptions))
 
@@ -35,6 +36,8 @@ app.use('/api/v1/job' , JobRouter)
 
 app.use('/api/v1/company' , CompanyRouter)
 
+//application Route
+app.use('/api/v1/application' , ApplicationRoute)
 
 const PORT = process.env.PORT || 4000
 

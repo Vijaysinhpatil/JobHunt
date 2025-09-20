@@ -19,8 +19,8 @@ const application_schema = new mongoose.Schema({
 
         type : String,
         enum : ["pending","accepted","rejected"],
-        required : true
+        default : "pending"
     }
 })
 
-export const application = mongoose.model("Application" , application_schema)
+export const Application = mongoose.model("Application" , application_schema)

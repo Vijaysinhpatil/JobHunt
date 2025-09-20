@@ -7,7 +7,7 @@ const companySchema = new mongoose.Schema({
         required : true,
         unique : true
     },
-    desciption : {
+    description : {
 
         type : String
     },
@@ -31,4 +31,4 @@ const companySchema = new mongoose.Schema({
 
     }
 })
-export const Company = mongoose.model("company" , companySchema)
+export const Company = mongoose.model("Company" , companySchema)

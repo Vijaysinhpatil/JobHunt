@@ -16,13 +16,13 @@ export const registerCompany = async(req , res) => {
             })
         }
    
-        console.log("Id =>" , req.id);
+        console.log("Company Id =>" , req.id);
         
         console.log('Company Name =>' , CompanyName);
         
         //finding the companyName
 
-        let company = await Company.findOne({ name : CompanyName})
+        let company = await Company.findOne({ CompanyName : CompanyName})
 
         if(company)
         {
@@ -41,6 +41,7 @@ export const registerCompany = async(req , res) => {
 
         CompanyName : CompanyName,
         userId : req.id,
+
        })
 
        console.log("Company =>" , company.CompanyName);
