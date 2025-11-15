@@ -1,0 +1,5 @@
+vijaysinhpatil28_db_user
+ZIe6pe3rm7ph5BrG
+mongodb+srv://vijaysinhpatil28_db_user:ZIe6pe3rm7ph5BrG@cluster0.8tabppi.mongodb.net/
+
+mongoDB Atlas project name => JobApplication
