@@ -16,7 +16,7 @@ import Companies from "./admin/Companies"
 import CompanyCreation from "./admin/CompanyCreation"
 import  CompanySetup  from "./admin/CompanySetup"
 import AdminJobs from "./admin/AdminJobs"
-import PostJobs from "./admin/Postjobs"
+import PostJobs from "./admin/PostJobs"
 import Applicants from "./admin/Applicants"
 
 function App() {
