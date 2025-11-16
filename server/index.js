@@ -8,31 +8,26 @@ import JobRouter from './routes/job.route.js'
 import CompanyRouter from './routes/company.route.js'
 import ApplicationRoute from "./routes/application.route.js"
 import FeedBackRoute from './routes/contact.route.js'
-const app = express();
 
-
-
-// configuring environment variables
 dotenv.config({});
 
-//Adding middleware
+const app = express();
+
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended : true}))
 app.use(cookieParser());   
 
-// middlewares
+// CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://jobhunt-frontend-rho.vercel.app",  // Add this
+  "https://jobhunt-frontend-rho.vercel.app",
   process.env.FRONTEND_URL 
 ];
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, Postman, etc.)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("CORS not allowed from this origin"));
@@ -45,27 +40,36 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Health check route
+app.get('/', (req, res) => {
+  res.json({ status: 'Server is running', success: true });
+});
 
-//route section or creating API's
+// Routes
+app.use('/api/v1/user', UserRouter)
+app.use('/api/v1/job', JobRouter)
+app.use('/api/v1/company', CompanyRouter)
+app.use('/api/v1/application', ApplicationRoute)
+app.use('/api/v1', FeedBackRoute)
 
-app.use('/api/v1/user' , UserRouter)
+// Connect to MongoDB and start server
+const startServer = async () => {
+  try {
+    await connectDB();
+    
+    // Only listen in local development
+    if (process.env.NODE_ENV !== 'production') {
+      const PORT = process.env.PORT || 5000;
+      app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+      });
+    }
+  } catch (error) {
+    console.error('Failed to connect to database:', error);
+  }
+};
 
-// For Job Posting
-app.use('/api/v1/job' , JobRouter)
+startServer();
 
-//router registering Company
-
-app.use('/api/v1/company' , CompanyRouter)
-
-//application Route
-app.use('/api/v1/application' , ApplicationRoute)
-
-//FeedBack Route
-app.use('/api/v1' , FeedBackRoute)
-const PORT = process.env.PORT || 4000
-
-//calling database connection function
-connectDB(); 
-app.listen(PORT , () => {
-    console.log(`server is running at POPT ${PORT}`);
-} )
+// Export for Vercel
+export default app;
